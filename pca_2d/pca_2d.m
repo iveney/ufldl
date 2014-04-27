@@ -20,6 +20,7 @@ title('Raw data');
 
 % -------------------- YOUR CODE HERE -------------------- 
 u = zeros(size(x, 1)); % You need to compute this
+[n, m] = size(x);
 xcov = (x * x') / m;
 [u, s, v] = svd(xcov);
 
