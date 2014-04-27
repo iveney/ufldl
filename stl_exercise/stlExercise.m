@@ -30,9 +30,13 @@ maxIter = 400;
 %  We have sorted the data for you in this so that you will not have to
 %  change it.
 
+addpath('../mnist');
+addpath('../sparse_autoencoder');
+addpath('../sparse_autoencoder/minFunc');
+
 % Load MNIST database files
-mnistData   = loadMNISTImages('mnist/train-images-idx3-ubyte');
-mnistLabels = loadMNISTLabels('mnist/train-labels-idx1-ubyte');
+mnistData   = loadMNISTImages('train-images.idx3-ubyte');
+mnistLabels = loadMNISTLabels('train-labels.idx1-ubyte');
 
 % Set Unlabeled Set (All Images)
 
@@ -70,20 +74,18 @@ theta = initializeParameters(hiddenSize, inputSize);
 %  unlabeledTrainingImages
 
 opttheta = theta; 
-
-
-
-
-
-
-
-
+encoderModel = trainSparseAutoencoder(hiddenSize, inputSize, ...
+								lambda, sparsityParam, beta, unlabeledData);
+opttheta = encoderModel.opttheta;
 
 %% -----------------------------------------------------
                           
 % Visualize weights
 W1 = reshape(opttheta(1:hiddenSize * inputSize), hiddenSize, inputSize);
 display_network(W1');
+
+print -djpeg W1.jpg   % save the visualization to a file 
+pause;
 
 %%======================================================================
 %% STEP 3: Extract Features from the Supervised Dataset
