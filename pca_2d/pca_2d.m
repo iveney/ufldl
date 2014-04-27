@@ -75,7 +75,6 @@ xPCAWhite = zeros(size(x)); % You need to compute this
 xPCAWhite = bsxfun(@div, xRot, diag(s));
 
 
-
 % -------------------------------------------------------- 
 figure(4);
 scatter(xPCAWhite(1, :), xPCAWhite(2, :));
