@@ -37,3 +37,5 @@ options.display = 'on';
 
 W1 = reshape(opttheta(1:hiddenSize*visibleSize), hiddenSize, visibleSize);
 display_network(W1'); 
+
+print -djpeg hidden.jpg   % save the visualization to a file 

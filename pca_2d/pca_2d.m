@@ -56,7 +56,8 @@ title('xRot');
 % -------------------- YOUR CODE HERE -------------------- 
 k = 1; % Use k = 1 and project the data onto the first eigenbasis
 xHat = zeros(size(x)); % You need to compute this
-xHat = u(:, 1)' * x;
+xHat = u(:, k)' * x;   % project to 1d
+xHat = u(:, k) * xHat; % project back
 
 
 % -------------------------------------------------------- 
@@ -72,7 +73,7 @@ title('xHat');
 epsilon = 1e-5;
 % -------------------- YOUR CODE HERE -------------------- 
 xPCAWhite = zeros(size(x)); % You need to compute this
-xPCAWhite = bsxfun(@div, xRot, diag(s));
+xPCAWhite = bsxfun(@rdivide, xRot, sqrt(diag(s)));
 
 
 % -------------------------------------------------------- 
