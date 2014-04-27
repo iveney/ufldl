@@ -23,16 +23,29 @@ thetagrad = zeros(numClasses, inputSize);
 %                You need to compute thetagrad and cost.
 %                The groundTruth matrix might come in handy.
 
+% k: numClasses, (= 10)
+% n: inputSize, (= 28x28 = 784)
+% m: numCases, (= 60000)
 
+% theta: k x n
+% data: n x m
+% groundTruth: k x m
 
+% 1. basic term
 
+% prevent overflow
+M = theta * data;
+M = bsxfun(@minus, M, max(M, [], 1));
+numerator = exp(M); % k x m
+denominator = sum(numerator);  % 1 x m
+prob = bsxfun(@rdivide, numerator, denominator); % k x m, this is h(x)
+cost = -sum(sum(groundTruth .* log(prob))) / numCases;
 
+thetagrad = -(groundTruth - prob) * data' / numCases; % k x n = (k x m) x (m x n)
 
-
-
-
-
-
+% 2. add normalization
+cost = cost + 0.5 * lambda * sum(sum(theta .* theta));
+thetagrad = thetagrad + lambda * theta;
 
 % ------------------------------------------------------------------
 % Unroll the gradient matrices into a vector for minFunc
