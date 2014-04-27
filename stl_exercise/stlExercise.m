@@ -33,6 +33,7 @@ maxIter = 400;
 addpath('../mnist');
 addpath('../sparse_autoencoder');
 addpath('../sparse_autoencoder/minFunc');
+addpath('../sparse_autoencoder/mnistHelper');
 
 % Load MNIST database files
 mnistData   = loadMNISTImages('train-images.idx3-ubyte');
