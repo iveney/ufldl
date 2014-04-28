@@ -79,6 +79,9 @@ encoderModel = trainSparseAutoencoder(hiddenSize, inputSize, ...
 								lambda, sparsityParam, beta, unlabeledData);
 opttheta = encoderModel.opttheta;
 
+% save the model for later use
+save('encoderModel.mat', '-struct', 'encoderModel');
+
 %% -----------------------------------------------------
                           
 % Visualize weights
@@ -113,13 +116,10 @@ softmaxModel = struct;
 % You need to compute softmaxModel using softmaxTrain on trainFeatures and
 % trainLabels
 
-
-
-
-
-
-
-
+lambda = 1e-4;
+numClasses = 5;
+softmaxModel = softmaxTrain(inputSize, numClasses, lambda, ...
+                            trainFeatures, trainLabels, options);
 
 
 %% -----------------------------------------------------
@@ -132,18 +132,7 @@ softmaxModel = struct;
 % Compute Predictions on the test set (testFeatures) using softmaxPredict
 % and softmaxModel
 
-
-
-
-
-
-
-
-
-
-
-
-
+[pred] = softmaxPredict(softmaxModel, testFeatures);
 
 
 %% -----------------------------------------------------
