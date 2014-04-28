@@ -90,7 +90,6 @@ W1 = reshape(opttheta(1:hiddenSize * inputSize), hiddenSize, inputSize);
 display_network(W1');
 
 print -djpeg W1.jpg   % save the visualization to a file 
-pause;
 
 %%======================================================================
 %% STEP 3: Extract Features from the Supervised Dataset
