@@ -20,6 +20,6 @@ options.display = 'on';
                               theta, options);
 
 % Fold into a nicer format
-encoderModel.opttheta = reshape(opttheta, hiddenSize, visibleSize);
+encoderModel.opttheta = opttheta;
 encoderModel.hiddenSize = hiddenSize;
 encoderModel.visibleSize = visibleSize;
