@@ -34,6 +34,7 @@ addpath('../mnist');
 addpath('../sparse_autoencoder');
 addpath('../sparse_autoencoder/minFunc');
 addpath('../sparse_autoencoder/mnistHelper');
+addpath('../softmax_exercise')
 
 % Load MNIST database files
 mnistData   = loadMNISTImages('train-images.idx3-ubyte');
@@ -118,7 +119,8 @@ softmaxModel = struct;
 
 lambda = 1e-4;
 numClasses = 5;
-softmaxModel = softmaxTrain(inputSize, numClasses, lambda, ...
+options.maxIter = 100;
+softmaxModel = softmaxTrain(hiddenSize, numClasses, lambda, ...
                             trainFeatures, trainLabels, options);
 
 
