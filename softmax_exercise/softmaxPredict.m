@@ -1,4 +1,4 @@
-function [pred] = softmaxPredict(softmaxModel, data)
+function [pred, prob] = softmaxPredict(softmaxModel, data)
 
 % softmaxModel - model trained using softmaxTrain
 % data - the N x M input matrix, where each column data(:, i) corresponds to
