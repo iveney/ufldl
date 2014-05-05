@@ -61,19 +61,32 @@ groundTruth = full(sparse(labels, 1:M, 1));
 %                match exactly that of the size of the matrices in stack.
 %
 
+%% feedforward pass
+a1 = data;
+z2 = stack{1}.w * a1 + repmat(stack{1}.b, 1, M);
+a2 = sigmoid(z2);  % hiddenLayer1
+z3 = stack{2}.w * a2 + repmat(stack{2}.b, 1, M);
+a3 = sigmoid(z3);  % hiddenLayer2, also input to softmax
 
+% last layer is the softmax classification
+[cost, softmaxThetaGrad] = softmaxCost(softmaxTheta, numClasses, ...
+									   hiddenSize, lambda, a3, labels);
 
+%% backpropagation pass
 
+% make predictions
+softmaxModel.optTheta = softmaxTheta;
+[~, prob] = softmaxPredict(softmaxModel, a3);
 
+% error term
+delta3 = softmaxTheta' * (prob - groundTruth) .* sigmoidGradient(z3);
+delta2 = stack{2}.w' * delta3 .* sigmoidGradient(z2);
 
-
-
-
-
-
-
-
-
+% partial derivatives
+stackgrad{2}.w = delta3 * a2' / M;
+stackgrad{2}.b = mean(delta3, 2);
+stackgrad{1}.w = delta2 * a1' / M;
+stackgrad{1}.b = mean(delta2, 2);
 
 % -------------------------------------------------------------------------
 
