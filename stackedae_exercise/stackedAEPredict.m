@@ -24,15 +24,13 @@ stack = params2stack(theta(hiddenSize*numClasses+1:end), netconfig);
 %  Instructions: Compute pred using theta assuming that the labels start 
 %                from 1.
 
-
-
-
-
-
-
-
-
-
+a1 = data;
+z2 = stack{1}.w * a1 + repmat(stack{1}.b, 1, M);
+a2 = sigmoid(z2);  % hiddenLayer1
+z3 = stack{2}.w * a2 + repmat(stack{2}.b, 1, M);
+a3 = sigmoid(z3);  % hiddenLayer2, also input to softmax
+softmaxModel.optTheta = softmaxTheta;
+pred = softmaxPredict(softmaxModel, a3);
 
 % -----------------------------------------------------------
 
