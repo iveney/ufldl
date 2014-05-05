@@ -52,6 +52,7 @@ trainLabels(trainLabels == 0) = 10; % Remap 0 to 10 since our labels need to sta
 %  If you've correctly implemented sparseAutoencoderCost.m, you don't need
 %  to change anything here.
 
+disp 'Training 1st layer...';
 
 %  Randomly initialize the parameters
 sae1Theta = initializeParameters(hiddenSizeL1, inputSize);
@@ -75,6 +76,8 @@ sae1OptTheta = layer1Model.opttheta;
 %  featurse.
 %  If you've correctly implemented sparseAutoencoderCost.m, you don't need
 %  to change anything here.
+
+disp 'Training 2nd layer...';
 
 [sae1Features] = feedForwardAutoencoder(sae1OptTheta, hiddenSizeL1, ...
                                         inputSize, trainData);
@@ -102,6 +105,8 @@ sae2OptTheta = layer2Model.opttheta;
 %  This trains the sparse autoencoder on the second autoencoder features.
 %  If you've correctly implemented softmaxCost.m, you don't need
 %  to change anything here.
+
+disp 'Training softmax classifier...';
 
 [sae2Features] = feedForwardAutoencoder(sae2OptTheta, hiddenSizeL2, ...
                                         hiddenSizeL1, sae1Features);
@@ -156,6 +161,8 @@ stackedAETheta = [ saeSoftmaxOptTheta ; stackparams ];
 %                to "hiddenSizeL2".
 %
 %
+
+disp 'Fine-tuning stacked AE...';
 
 options.maxIter = 100;
 stackedAEModel = stackedAETrain(stackedAETheta, ...
