@@ -8,6 +8,8 @@
 %  the code in sparseAutoencoderLinearCost.m. You will not need to modify
 %  any code in this file.
 
+addpath('../sparse_autoencoder');
+
 %%======================================================================
 %% STEP 0: Initialization
 %  Here we initialize some parameters used for the exercise.
