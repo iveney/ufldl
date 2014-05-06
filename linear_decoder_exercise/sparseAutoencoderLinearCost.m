@@ -68,7 +68,7 @@ rho = mean(a2, 2); % 25 x 1
 % 1. sum square error
 cost = 0.5 * sum(sum((hx - data) .^ 2)) / m;
 
-delta3 = -(data - hx)       % 64 x 10000 (linear gradient)
+delta3 = -(data - hx);       % 64 x 10000 (linear gradient)
 W2grad = delta3 * a2' / m;  % 64 x 25
 b2grad = mean(delta3,2); % 64
 
