@@ -24,6 +24,8 @@ stack = params2stack(theta(hiddenSize*numClasses+1:end), netconfig);
 %  Instructions: Compute pred using theta assuming that the labels start 
 %                from 1.
 
+M = size(data, 2);
+
 a1 = data;
 z2 = stack{1}.w * a1 + repmat(stack{1}.b, 1, M);
 a2 = sigmoid(z2);  % hiddenLayer1
