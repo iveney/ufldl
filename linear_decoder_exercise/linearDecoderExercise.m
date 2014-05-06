@@ -114,7 +114,7 @@ displayColorNetwork(patches(:, 1:100));
 theta = initializeParameters(hiddenSize, visibleSize);
 
 % Use minFunc to minimize the function
-addpath minFunc/
+addpath('../sparse_autoencoder/minFunc');
 
 options = struct;
 options.Method = 'lbfgs'; 
