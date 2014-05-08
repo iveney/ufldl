@@ -40,15 +40,14 @@ function [cost, grad] = sparseCodingWeightCost(weightMatrix, featureMatrix, ...
     errorTerm = sum(sum(errors.^2));
     % same as trace(errors' * errors)
 
-    D = sqrt(groupMatrix * featureMatrix * featureMatrix' + epsilon);
+    D = sqrt(groupMatrix * featureMatrix.^2 + epsilon);
     sparseTerm = lambda * sum(D(:));
 
     consTerm = gamma * sum(sum(weightMatrix.^2));
 
     cost = (errorTerm + sparseTerm + consTerm);
 
-    grad = 2 * (weightMatrix * featureMatrix * featureMatrix' - ...
-                patches * featureMatrix' + gamma * weightMatrix);
+    grad = 2 * (errors * featureMatrix' + gamma * weightMatrix);
 
     % unroll the gradient
     grad = grad(:);
