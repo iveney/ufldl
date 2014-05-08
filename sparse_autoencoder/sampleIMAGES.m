@@ -1,11 +1,18 @@
-function patches = sampleIMAGES()
+function patches = sampleIMAGES(images, patchsize, numpatches)
 % sampleIMAGES
 % Returns 10000 patches for training
 
-load IMAGES;    % load images from disk 
+if ~exist('images', 'var')
+	load IMAGES;    % load images from disk 
+end
 
-patchsize = 8;  % we'll use 8x8 patches 
-numpatches = 10000;
+if ~exist('patchsize', 'var')
+	patchsize = 8;  % we'll use 8x8 patches 
+end
+
+if ~exist('numpatches', 'var')
+	numpatches = 10000;
+end
 
 % Initialize patches with zeros.  Your code will fill in this matrix--one
 % column per patch, 10000 columns. 
