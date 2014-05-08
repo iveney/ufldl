@@ -31,5 +31,24 @@ pooledFeatures = zeros(numFeatures, numImages, floor(convolvedDim / poolDim), fl
 %   Use mean pooling here.
 % -------------------- YOUR CODE HERE --------------------
 
+R = floor(convolvedDim / poolDim);
+C = floor(convolvedDim / poolDim);
+for imageNum = 1:numImages
+  for featureNum = 1:numFeatures
+  	for r = 1:R
+  	  for c = 1:C
+  		% im = squeeze(convolvedFeatures(featureNum, imageNum, :, :));
+  		rb = (r-1) * poolDim + 1;
+  		re = min(r * poolDim, convolvedDim);
+  		cb = (c-1) * poolDim + 1;
+  		ce = min(c * poolDim, convolvedDim);
+  		region = convolvedFeatures(featureNum, imageNum, rb:re, cb:ce);
+  		pooledFeatures(featureNum, imageNum, r, c) = mean(region(:));
+  	  end
+  	end  
+  end
+end
+  
+
 end
 

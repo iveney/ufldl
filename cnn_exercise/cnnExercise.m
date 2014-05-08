@@ -207,6 +207,8 @@ toc();
 
 % Add the path to your softmax solution, if necessary
 % addpath /path/to/solution/
+addpath ../softmax_exercise
+addpath ../minFunc
 
 % Setup parameters for softmax
 softmaxLambda = 1e-4;
