@@ -12,6 +12,10 @@
 %% STEP 0: Initialization
 %  Here we initialize some parameters used for the exercise.
 
+addpath ../linear_decoder_exercise
+addpath ../stl_exercise
+addpath stlSubset
+
 imageDim = 64;         % image dimension
 imageChannels = 3;     % number of channels (rgb, so 3)
 
@@ -42,6 +46,8 @@ optTheta =  zeros(2*hiddenSize*visibleSize+hiddenSize+visibleSize, 1);
 ZCAWhite =  zeros(visibleSize, visibleSize);
 meanPatch = zeros(visibleSize, 1);
 
+% Trained in linear_decoder_exercise
+load STL10Features.mat
 
 % --------------------------------------------------------------------
 
