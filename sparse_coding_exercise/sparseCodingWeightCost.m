@@ -1,11 +1,12 @@
-function [cost, grad] = sparseCodingWeightCost(weightMatrix, featureMatrix, visibleSize, numFeatures,  patches, gamma, lambda, epsilon, groupMatrix)
+function [cost, grad] = sparseCodingWeightCost(weightMatrix, featureMatrix, ...
+     visibleSize, numFeatures,  patches, gamma, lambda, epsilon, groupMatrix)
 %sparseCodingWeightCost - given the features in featureMatrix, 
 %                         computes the cost and gradient with respect to
 %                         the weights, given in weightMatrix
 % parameters
-%   weightMatrix  - the weight matrix. weightMatrix(:, c) is the cth basis
+%   weightMatrix  - the weight matrix (A). weightMatrix(:, c) is the cth basis
 %                   vector.
-%   featureMatrix - the feature matrix. featureMatrix(:, c) is the features
+%   featureMatrix - the feature matrix (s). featureMatrix(:, c) is the features
 %                   for the cth example
 %   visibleSize   - number of pixels in the patches
 %   numFeatures   - number of features
@@ -24,6 +25,7 @@ function [cost, grad] = sparseCodingWeightCost(weightMatrix, featureMatrix, visi
         groupMatrix = eye(numFeatures);
     end
 
+    % each column is an example
     numExamples = size(patches, 2);
 
     weightMatrix = reshape(weightMatrix, visibleSize, numFeatures);
@@ -33,6 +35,21 @@ function [cost, grad] = sparseCodingWeightCost(weightMatrix, featureMatrix, visi
     % Instructions:
     %   Write code to compute the cost and gradient with respect to the
     %   weights given in weightMatrix.     
-    % -------------------- YOUR CODE HERE --------------------    
+    % -------------------- YOUR CODE HERE --------------------   
+    errors = (weightMatrix * featureMatrix - patches);
+    errorTerm = sum(sum(errors.^2));
+    % same as trace(errors' * errors)
 
+    D = sqrt(groupMatrix * featureMatrix * featureMatrix' + epsilon);
+    sparseTerm = lambda * sum(D(:));
+
+    consTerm = gamma * sum(sum(weightMatrix.^2));
+
+    cost = (errorTerm + sparseTerm + consTerm);
+
+    grad = 2 * (weightMatrix * featureMatrix * featureMatrix' - ...
+                patches * featureMatrix' + gamma * weightMatrix);
+
+    % unroll the gradient
+    grad = grad(:);
 end
