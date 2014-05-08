@@ -38,4 +38,23 @@ function [cost, grad] = sparseCodingFeatureCost(weightMatrix, featureMatrix, vis
     %   non-topographic version to the topographic version later.
     % -------------------- YOUR CODE HERE --------------------
     
+
+    % cost is the same as in sparseCodingWeightCost
+    errors = (weightMatrix * featureMatrix - patches);
+    errorTerm = sum(sum(errors.^2));
+
+    D = sqrt(groupMatrix * featureMatrix.^2 + epsilon);
+    sparseTerm = lambda * sum(D(:));
+
+    consTerm = gamma * sum(sum(weightMatrix.^2));
+
+    cost = (errorTerm + sparseTerm + consTerm);
+
+    g1 = 2 * weightMatrix' * errors;
+    g2 = lambda * groupMatrix' * ...
+           (groupMatrix * featureMatrix.^2 + epsilon).^-0.5 .* ...
+           featureMatrix;
+    grad = g1 + g2;
+
+    grad = grad(:);
 end
