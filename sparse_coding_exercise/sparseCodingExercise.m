@@ -15,6 +15,9 @@
 %% STEP 0: Initialization
 %  Here we initialize some parameters used for the exercise.
 
+addpath ../sparse_autoencoder
+addpath ../minFunc
+
 numPatches = 20000;   % number of patches
 numFeatures = 121;    % number of features to learn
 patchDim = 8;         % patch dimension
@@ -49,9 +52,12 @@ display_network(patches(:, 1:64));
 %     (used when optimizing for A, which is called weightMatrix in this exericse)
 
 % We reduce the number of features and number of patches for debugging
+
+DEBUG = false;
+if DEBUG
 numFeatures = 5;
-patches = patches(:, 1:5);
 numPatches = 5;
+patches = patches(:, 1:numPatches);
 
 weightMatrix = randn(visibleSize, numFeatures) * 0.005;
 featureMatrix = randn(numFeatures, numPatches) * 0.005;
@@ -112,6 +118,7 @@ diff = norm(numgrad-grad)/norm(numgrad+grad);
 fprintf('Feature difference (topographic): %g\n', diff);
 assert(diff < 1e-8, 'Feature difference too large. Check your feature cost function. ');
 
+end % DEBUG
 %%======================================================================
 %% STEP 3: Iterative optimization
 %  Once you have implemented the cost functions, you can now optimize for
@@ -131,6 +138,13 @@ options.display = 'off';
 options.verbose = 0;
 
 % Initialize matrices
+
+% For debug
+if DEBUG
+    numFeatures = 9;
+    batchNumPatches = 2;
+end
+
 weightMatrix = rand(visibleSize, numFeatures);
 featureMatrix = rand(numFeatures, batchNumPatches);
 
@@ -204,10 +218,14 @@ for iteration = 1:200
     %   Once you have verified that your closed form solution is correct,
     %   you should comment out the checking code before running the
     %   optimization.
+
+    weightMatrix = batchPatches * featureMatrix' / ...
+         (featureMatrix * featureMatrix' + gamma * eye(size(featureMatrix,1)));
     
     [cost, grad] = sparseCodingWeightCost(weightMatrix, featureMatrix, visibleSize, numFeatures, batchPatches, gamma, lambda, epsilon, groupMatrix);
-    assert(norm(grad) < 1e-12, 'Weight gradient should be close to 0. Check your closed form solution for weightMatrix again.')
-    error('Weight gradient is okay. Comment out checking code before running optimization.');
+    % assert(norm(grad) < 1e-12, 'Weight gradient should be close to 0. Check your closed form solution for weightMatrix again.')
+    % disp(norm(grad))
+    % error('Weight gradient is okay. Comment out checking code before running optimization.');
     % -------------------- YOUR CODE HERE --------------------   
     
     % Visualize learned basis
