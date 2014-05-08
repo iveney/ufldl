@@ -14,6 +14,7 @@
 
 addpath ../linear_decoder_exercise
 addpath ../stl_exercise
+addpath ../sparse_autoencoder
 addpath stlSubset
 
 imageDim = 64;         % image dimension
