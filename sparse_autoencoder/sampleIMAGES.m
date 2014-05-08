@@ -1,9 +1,9 @@
-function patches = sampleIMAGES(images, patchsize, numpatches)
+function patches = sampleIMAGES(IMAGES, patchsize, numpatches)
 % sampleIMAGES
 % Returns 10000 patches for training
 
-if ~exist('images', 'var')
-	load IMAGES;    % load images from disk 
+if ~exist('IMAGES', 'var')
+	load('IMAGES.mat');    % load images from disk 
 end
 
 if ~exist('patchsize', 'var')
