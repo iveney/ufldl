@@ -66,9 +66,12 @@ featureMatrix = randn(numFeatures, numPatches) * 0.005;
 %  Implement sparseCodingWeightCost in sparseCodingWeightCost.m and check
 %  the gradient
 
-[cost, grad] = sparseCodingWeightCost(weightMatrix, featureMatrix, visibleSize, numFeatures, patches, gamma, lambda, epsilon);
+[cost, grad] = sparseCodingWeightCost(weightMatrix, featureMatrix, ...
+    visibleSize, numFeatures, patches, gamma, lambda, epsilon);
 
-numgrad = computeNumericalGradient( @(x) sparseCodingWeightCost(x, featureMatrix, visibleSize, numFeatures, patches, gamma, lambda, epsilon), weightMatrix(:) );
+numgrad = computeNumericalGradient( @(x) sparseCodingWeightCost(...
+    x, featureMatrix, visibleSize, numFeatures, patches, gamma, lambda, ...
+    epsilon), weightMatrix(:) );
 % Uncomment the blow line to display the numerical and analytic gradients side by side
 % disp([numgrad grad]);     
 diff = norm(numgrad-grad)/norm(numgrad+grad);
@@ -87,9 +90,12 @@ epsilon = 1e-2;
 % feature in a group on its own.
 groupMatrix = eye(numFeatures);
 
-[cost, grad] = sparseCodingFeatureCost(weightMatrix, featureMatrix, visibleSize, numFeatures, patches, gamma, lambda, epsilon, groupMatrix);
+[cost, grad] = sparseCodingFeatureCost(weightMatrix, featureMatrix, ...
+    visibleSize, numFeatures, patches, gamma, lambda, epsilon, groupMatrix);
 
-numgrad = computeNumericalGradient( @(x) sparseCodingFeatureCost(weightMatrix, x, visibleSize, numFeatures, patches, gamma, lambda, epsilon, groupMatrix), featureMatrix(:) );
+numgrad = computeNumericalGradient( @(x) sparseCodingFeatureCost(...
+    weightMatrix, x, visibleSize, numFeatures, patches, gamma, lambda, ...
+    epsilon, groupMatrix), featureMatrix(:) );
 % Uncomment the blow line to display the numerical and analytic gradients side by side
 % disp([numgrad grad]); 
 diff = norm(numgrad-grad)/norm(numgrad+grad);
@@ -109,9 +115,12 @@ epsilon = 1e-2;
 % correct.
 groupMatrix = rand(100, numFeatures);
 
-[cost, grad] = sparseCodingFeatureCost(weightMatrix, featureMatrix, visibleSize, numFeatures, patches, gamma, lambda, epsilon, groupMatrix);
+[cost, grad] = sparseCodingFeatureCost(weightMatrix, featureMatrix, ...
+    visibleSize, numFeatures, patches, gamma, lambda, epsilon, groupMatrix);
 
-numgrad = computeNumericalGradient( @(x) sparseCodingFeatureCost(weightMatrix, x, visibleSize, numFeatures, patches, gamma, lambda, epsilon, groupMatrix), featureMatrix(:) );
+numgrad = computeNumericalGradient( @(x) sparseCodingFeatureCost(...
+    weightMatrix, x, visibleSize, numFeatures, patches, gamma, lambda, ...
+    epsilon, groupMatrix), featureMatrix(:) );
 % Uncomment the blow line to display the numerical and analytic gradients side by side
 % disp([numgrad grad]); 
 diff = norm(numgrad-grad)/norm(numgrad+grad);
@@ -149,9 +158,11 @@ weightMatrix = rand(visibleSize, numFeatures);
 featureMatrix = rand(numFeatures, batchNumPatches);
 
 % Initialize grouping matrix
-assert(floor(sqrt(numFeatures)) ^2 == numFeatures, 'numFeatures should be a perfect square');
+assert(floor(sqrt(numFeatures)) ^2 == numFeatures, ...
+    'numFeatures should be a perfect square');
 donutDim = floor(sqrt(numFeatures));
-assert(donutDim * donutDim == numFeatures,'donutDim^2 must be equal to numFeatures');
+assert(donutDim * donutDim == numFeatures, ...
+    'donutDim^2 must be equal to numFeatures');
 
 groupMatrix = zeros(numFeatures, donutDim, donutDim);
 
@@ -193,7 +204,8 @@ for iteration = 1:200
     
     fWeight = gamma * sum(weightMatrix(:) .^ 2);
     
-    fprintf('  %4d  %10.4f  %10.4f  %10.4f  %10.4f\n', iteration, fResidue+fSparsity+fWeight, fResidue, fSparsity, fWeight)
+    fprintf('  %4d  %10.4f  %10.4f  %10.4f  %10.4f\n', iteration, ...
+           fResidue+fSparsity+fWeight, fResidue, fSparsity, fWeight)
                
     % Select a new batch
     indices = randperm(numPatches);
@@ -207,8 +219,9 @@ for iteration = 1:200
     
     % Optimize for feature matrix    
     options.maxIter = 20;
-    [featureMatrix, cost] = minFunc( @(x) sparseCodingFeatureCost(weightMatrix, x, visibleSize, numFeatures, batchPatches, gamma, lambda, epsilon, groupMatrix), ...
-                                           featureMatrix(:), options);
+    [featureMatrix, cost] = minFunc( @(x) sparseCodingFeatureCost(...
+        weightMatrix, x, visibleSize, numFeatures, batchPatches, gamma, ...
+        lambda, epsilon, groupMatrix), featureMatrix(:), options);
     featureMatrix = reshape(featureMatrix, numFeatures, batchNumPatches);                                      
        
     % Optimize for weight matrix  
@@ -227,9 +240,12 @@ for iteration = 1:200
          (featureMatrix * featureMatrix' + ...
           gamma * batchNumPatches * eye(numFeatures));
     
-    [cost, grad] = sparseCodingWeightCost(weightMatrix, featureMatrix, visibleSize, numFeatures, batchPatches, gamma, lambda, epsilon, groupMatrix);
+    [cost, grad] = sparseCodingWeightCost(weightMatrix, featureMatrix, ...
+        visibleSize, numFeatures, batchPatches, gamma, lambda, ...
+        epsilon, groupMatrix);
     disp(norm(grad))
-    assert(norm(grad) < 1e-12, 'Weight gradient should be close to 0. Check your closed form solution for weightMatrix again.')
+    assert(norm(grad) < 1e-12, ...
+        'Weight gradient should be close to 0. Check your closed form solution for weightMatrix again.')
     % error('Weight gradient is okay. Comment out checking code before running optimization.');
     % -------------------- YOUR CODE HERE --------------------   
     
