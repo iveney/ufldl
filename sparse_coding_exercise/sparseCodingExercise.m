@@ -53,7 +53,7 @@ display_network(patches(:, 1:64));
 
 % We reduce the number of features and number of patches for debugging
 
-DEBUG = false;
+DEBUG = true;
 if DEBUG
 numFeatures = 5;
 numPatches = 5;
@@ -223,7 +223,8 @@ for iteration = 1:200
     %   optimization.
 
     weightMatrix = batchPatches * featureMatrix' / ...
-         (featureMatrix * featureMatrix' + gamma * eye(size(featureMatrix,1)));
+         (featureMatrix * featureMatrix' + ...
+          gamma * batchNumPatches * eye(size(featureMatrix,1)));
     
     [cost, grad] = sparseCodingWeightCost(weightMatrix, featureMatrix, visibleSize, numFeatures, batchPatches, gamma, lambda, epsilon, groupMatrix);
     % assert(norm(grad) < 1e-12, 'Weight gradient should be close to 0. Check your closed form solution for weightMatrix again.')
@@ -236,4 +237,4 @@ for iteration = 1:200
     display_network(weightMatrix);           
 end
 
-saveas(gcf, ['weightMatrix-' num2str(answer) '.png']);
+saveas(gcf, ['weightMatrix-' answer '.png']);
