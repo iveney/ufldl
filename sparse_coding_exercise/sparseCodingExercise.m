@@ -166,7 +166,10 @@ for row = 1:donutDim
 end
 
 groupMatrix = reshape(groupMatrix, numFeatures, numFeatures);
-if isequal(questdlg('Initialize grouping matrix for topographic or non-topographic sparse coding?', 'Topographic/non-topographic?', 'Non-topographic', 'Topographic', 'Non-topographic'), 'Non-topographic')
+
+% ask if want to use topographic
+answer = questdlg('Initialize grouping matrix for topographic or non-topographic sparse coding?', 'Topographic/non-topographic?', 'Non-topographic', 'Topographic', 'Non-topographic')
+if isequal(answer, 'Non-topographic')
     groupMatrix = eye(numFeatures);
 end
 
@@ -232,3 +235,5 @@ for iteration = 1:200
     figure(1);
     display_network(weightMatrix);           
 end
+
+saveas(gcf, ['weightMatrix-' num2str(answer) '.png']);
