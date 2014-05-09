@@ -34,9 +34,9 @@ patches = zeros(patchsize*patchsize, numpatches);
 [m, n, N] = size(IMAGES);
 for i=1:numpatches
 	j = randi([1 N]);
-	r = randi([1 m-7]);
-	c = randi([1 n-7]);
-	patch = IMAGES(r:r+7,c:c+7,j);
+	r = randi([1 m-patchsize+1]);
+	c = randi([1 n-patchsize+1]);
+	patch = IMAGES(r:r+patchsize-1,c:c+patchsize-1,j);
 	patches(:, i) = patch(:);
 end
 
