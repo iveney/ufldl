@@ -53,7 +53,7 @@ display_network(patches(:, 1:64));
 
 % We reduce the number of features and number of patches for debugging
 
-DEBUG = true;
+DEBUG = false;
 if DEBUG
 numFeatures = 5;
 numPatches = 5;
