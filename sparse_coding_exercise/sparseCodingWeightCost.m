@@ -40,7 +40,7 @@ function [cost, grad] = sparseCodingWeightCost(weightMatrix, featureMatrix, ...
     errorTerm = sum(sum(errors.^2)) / numExamples;
     % same as trace(errors' * errors)
 
-    D = sqrt(groupMatrix * featureMatrix.^2 + epsilon);
+    D = sqrt(groupMatrix * (featureMatrix.^2) + epsilon);
     sparseTerm = lambda * sum(D(:));
 
     consTerm = gamma * sum(sum(weightMatrix.^2));

@@ -43,7 +43,7 @@ function [cost, grad] = sparseCodingFeatureCost(weightMatrix, featureMatrix, vis
     errors = (weightMatrix * featureMatrix - patches);
     errorTerm = sum(sum(errors.^2)) / numExamples;
 
-    D = sqrt(groupMatrix * featureMatrix.^2 + epsilon);
+    D = sqrt(groupMatrix * (featureMatrix.^2) + epsilon);
     sparseTerm = lambda * sum(D(:));
 
     consTerm = gamma * sum(sum(weightMatrix.^2));
@@ -52,7 +52,7 @@ function [cost, grad] = sparseCodingFeatureCost(weightMatrix, featureMatrix, vis
 
     g1 = 2 * weightMatrix' * errors / numExamples;
     g2 = lambda * groupMatrix' * ...
-           (groupMatrix * featureMatrix.^2 + epsilon).^-0.5 .* ...
+           (groupMatrix * (featureMatrix.^2) + epsilon).^-0.5 .* ...
            featureMatrix;
     grad = g1 + g2;
 
