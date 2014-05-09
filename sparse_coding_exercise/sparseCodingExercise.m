@@ -36,10 +36,11 @@ gamma = 1e-2;   % L2-regularisation parameter (on basis)
 %%======================================================================
 %% STEP 1: Sample patches
 
-images = load('IMAGES.mat');
+images = load('../sparse_autoencoder/IMAGES.mat');
 images = images.IMAGES;
 
-patches = sampleIMAGES(images, patchDim, numPatches);
+% do not normalize patch!
+patches = sampleIMAGES(images, patchDim, numPatches, false);
 display_network(patches(:, 1:64));
 
 %%======================================================================
@@ -251,7 +252,7 @@ for iteration = 1:200
     
     % Visualize learned basis
     figure(1);
-    display_network(weightMatrix);           
+    display_network(weightMatrix);
+    saveas(gcf, ['weightMatrix-' answer '.png']);           
 end
 
-saveas(gcf, ['weightMatrix-' answer '.png']);
