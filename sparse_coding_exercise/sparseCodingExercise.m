@@ -222,11 +222,12 @@ for iteration = 1:200
     %   you should comment out the checking code before running the
     %   optimization.
 
+    assert(batchNumPatches == size(batchPatches, 2));
     weightMatrix = batchPatches * featureMatrix' / ...
          (featureMatrix * featureMatrix' + ...
           gamma * batchNumPatches * eye(size(featureMatrix,1)));
     
-    [cost, grad] = sparseCodingWeightCost(weightMatrix, featureMatrix, visibleSize, numFeatures, batchPatches, gamma, lambda, epsilon, groupMatrix);
+    % [cost, grad] = sparseCodingWeightCost(weightMatrix, featureMatrix, visibleSize, numFeatures, batchPatches, gamma, lambda, epsilon, groupMatrix);
     % assert(norm(grad) < 1e-12, 'Weight gradient should be close to 0. Check your closed form solution for weightMatrix again.')
     % disp(norm(grad))
     % error('Weight gradient is okay. Comment out checking code before running optimization.');
