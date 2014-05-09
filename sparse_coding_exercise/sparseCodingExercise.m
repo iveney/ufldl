@@ -168,7 +168,8 @@ end
 groupMatrix = reshape(groupMatrix, numFeatures, numFeatures);
 
 % ask if want to use topographic
-answer = questdlg('Initialize grouping matrix for topographic or non-topographic sparse coding?', 'Topographic/non-topographic?', 'Non-topographic', 'Topographic', 'Non-topographic')
+answer = questdlg('Initialize grouping matrix for topographic or non-topographic sparse coding?', ...
+        'Topographic/non-topographic?', 'Non-topographic', 'Topographic', 'Non-topographic');
 if isequal(answer, 'Non-topographic')
     groupMatrix = eye(numFeatures);
 end
@@ -211,7 +212,7 @@ for iteration = 1:200
     featureMatrix = reshape(featureMatrix, numFeatures, batchNumPatches);                                      
        
     % Optimize for weight matrix  
-    weightMatrix = zeros(visibleSize, numFeatures);     
+
     % -------------------- YOUR CODE HERE --------------------
     % Instructions:
     %   Fill in the analytic solution for weightMatrix that minimizes 
@@ -222,14 +223,13 @@ for iteration = 1:200
     %   you should comment out the checking code before running the
     %   optimization.
 
-    assert(batchNumPatches == size(batchPatches, 2));
-    weightMatrix = batchPatches * featureMatrix' / ...
+    weightMatrix = (batchPatches * featureMatrix') / ...
          (featureMatrix * featureMatrix' + ...
-          gamma * batchNumPatches * eye(size(featureMatrix,1)));
+          gamma * batchNumPatches * eye(numFeatures));
     
-    % [cost, grad] = sparseCodingWeightCost(weightMatrix, featureMatrix, visibleSize, numFeatures, batchPatches, gamma, lambda, epsilon, groupMatrix);
-    % assert(norm(grad) < 1e-12, 'Weight gradient should be close to 0. Check your closed form solution for weightMatrix again.')
-    % disp(norm(grad))
+    [cost, grad] = sparseCodingWeightCost(weightMatrix, featureMatrix, visibleSize, numFeatures, batchPatches, gamma, lambda, epsilon, groupMatrix);
+    disp(norm(grad))
+    assert(norm(grad) < 1e-12, 'Weight gradient should be close to 0. Check your closed form solution for weightMatrix again.')
     % error('Weight gradient is okay. Comment out checking code before running optimization.');
     % -------------------- YOUR CODE HERE --------------------   
     
