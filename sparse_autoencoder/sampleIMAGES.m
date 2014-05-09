@@ -1,4 +1,4 @@
-function patches = sampleIMAGES(IMAGES, patchsize, numpatches)
+function patches = sampleIMAGES(IMAGES, patchsize, numpatches, normalize)
 % sampleIMAGES
 % Returns 10000 patches for training
 
@@ -12,6 +12,10 @@ end
 
 if ~exist('numpatches', 'var')
 	numpatches = 10000;
+end
+
+if ~exist('normalize', 'var')
+	normalize = true;
 end
 
 % Initialize patches with zeros.  Your code will fill in this matrix--one
@@ -51,7 +55,9 @@ end
 % Specifically, since the output of the network is bounded between [0,1]
 % (due to the sigmoid activation function), we have to make sure 
 % the range of pixel values is also bounded between [0,1]
-patches = normalizeData(patches);
+if normalize
+	patches = normalizeData(patches);
+end
 
 end
 
