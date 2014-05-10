@@ -193,7 +193,11 @@ batchPatches = patches(:, indices);
 
 fprintf('%6s%12s%12s%12s%12s\n','Iter', 'fObj','fResidue','fSparsity','fWeight');
 
-for iteration = 1:200                      
+% save as movie
+nIter = 200;
+mov(1:nIter) = struct('cdata', [], 'colormap', []);
+
+for iteration = 1:nIter
     error = weightMatrix * featureMatrix - batchPatches;
     error = sum(error(:) .^ 2) / batchNumPatches;
     
@@ -252,7 +256,10 @@ for iteration = 1:200
     
     % Visualize learned basis
     figure(1);
-    display_network(weightMatrix);
-    saveas(gcf, ['weightMatrix-' answer '.png']);           
+    [~, I] = display_network(weightMatrix);
+
+    mov(iteration) = getframe(gcf);
+    % saveas(gcf, ['weightMatrix-' answer '.png']);           
 end
 
+movie2avi(mov,'sparse_coding.avi','compression','none', 'fps', 2);
