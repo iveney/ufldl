@@ -195,7 +195,9 @@ fprintf('%6s%12s%12s%12s%12s\n','Iter', 'fObj','fResidue','fSparsity','fWeight')
 
 % save as movie
 nIter = 200;
-mov(1:nIter) = struct('cdata', [], 'colormap', []);
+outputVideo = VideoWriter('sparse_coding.avi', 'Grayscale AVI');
+outputVideo.FrameRate = 1;
+open(outputVideo);
 
 for iteration = 1:nIter
     error = weightMatrix * featureMatrix - batchPatches;
@@ -256,11 +258,14 @@ for iteration = 1:nIter
     
     % Visualize learned basis
     figure(1);
-    h = display_network(weightMatrix);
+    [~, I] = display_network(weightMatrix);
 
-    mov(iteration) = getframe(h);
+    % rescale to [0, 1] and upsample for better display
+    Irange = max(I(:)) - min(I(:));
+    I =  (I - min(I(:))) ./ Irange;
+    writeVideo(outputVideo, imresize(I, 3, 'nearest'));
     % saveas(gcf, ['weightMatrix-' answer '.png']);           
 end
 
-movie2avi(mov,'sparse_coding.avi','compression','none', 'fps', 2);
+close(outputVideo);
 saveas(gcf, ['weightMatrix-' answer '.png']);
