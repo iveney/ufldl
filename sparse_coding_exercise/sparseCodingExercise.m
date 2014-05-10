@@ -256,10 +256,11 @@ for iteration = 1:nIter
     
     % Visualize learned basis
     figure(1);
-    [~, I] = display_network(weightMatrix);
+    h = display_network(weightMatrix);
 
-    mov(iteration) = getframe(gcf);
+    mov(iteration) = getframe(h);
     % saveas(gcf, ['weightMatrix-' answer '.png']);           
 end
 
 movie2avi(mov,'sparse_coding.avi','compression','none', 'fps', 2);
+saveas(gcf, ['weightMatrix-' answer '.png']);
