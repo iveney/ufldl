@@ -143,7 +143,7 @@ end % DEBUG
 %  iterative optimization.
 
 % Initialize options for minFunc
-options.Method = 'lbfgs';
+options.Method = 'cg';
 options.display = 'off';
 options.verbose = 0;
 
@@ -196,7 +196,7 @@ fprintf('%6s%12s%12s%12s%12s\n','Iter', 'fObj','fResidue','fSparsity','fWeight')
 % save as movie
 nIter = 200;
 outputVideo = VideoWriter('sparse_coding.avi', 'Grayscale AVI');
-outputVideo.FrameRate = 1;
+outputVideo.FrameRate = 10;
 open(outputVideo);
 
 for iteration = 1:nIter
