@@ -268,4 +268,10 @@ for iteration = 1:nIter
 end
 
 close(outputVideo);
+
+% display weight and feature matrix then save them
+display_network(weightMatrix);
 saveas(gcf, ['weightMatrix-' answer '.png']);
+display_network(featureMatrix(:, 1:numFeatures));
+saveas(gcf, ['featureMatrix-' answer '.png']);
+save([answer '.mat'], 'featureMatrix', 'weightMatrix');
